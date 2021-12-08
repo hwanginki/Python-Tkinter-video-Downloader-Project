@@ -5,6 +5,7 @@
 # tkinter 임포트 합니다.
 import tkinter
 import tkinter.ttk # 이거 왜 추가해야되는 이유는 모르겠다. 아마도 콤보박스 관련 라이브러리라서 그런가
+import pytube
 
 window = tkinter.Tk() # Tk()이용하여 윈도우 창을 생성합니다.
 window.title("동영상 다운로더") # 제목 설정합니다.
