@@ -104,7 +104,7 @@ def downlode_window():
     def calc(event):
         label.config(text = "결과 = " + str(eval(entry.get())))
 
-    entry = tkinter.Entry(window, width = 70)
+    entry = tkinter.Entry(window, width = 82)
     # bind() 이용해 함수를 쓰면 될 듯?!
     entry.bind("<Return>", calc)
     entry.place(x = 200, y = 135)
