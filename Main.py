@@ -52,37 +52,42 @@ def select_window():
 
 # 동영상 다운로드 로직
 def downloadVideo():
-    global select # 이것또 뭐니?
+    global select
     choice = combobox.get()
     getUrl = ytdEntry.get()
-    yt = YouTube(getUrl, on_progress_callback = progress_function)
-
-    if (Folder_Name != ""):
-        if (choice == quality_lists[0]):
-            select = yt.streams.filter(res = '2160p').first()
-        elif (choice == quality_lists[1]):
-            select = yt.streams.filter(res = '1440p').first()
-        elif (choice == quality_lists[2]):
-            select = yt.streams.filter(res = '1080p').first()
-        elif (choice == quality_lists[3]):
-            select = yt.streams.filter(progressive = 'True', res = '720p').first()
-        elif (choice == quality_lists[4]):
-            select = yt.streams.filter(progressive = 'True', res = '480p').first()
-        elif (choice == quality_lists[5]):
-            select = yt.streams.filter(res = '360p').first()
-        elif (choice == quality_lists[6]):
-            select = yt.streams.filter(res = '240p').first()
-        elif (choice == quality_lists[7]):
-            select = yt.streams.filter(res = '144p').first()
+    if (len(getUrl) > 1) :
+        yt = YouTube(getUrl)
+        if (Folder_Name != ""):
+            if (choice == "품질 선택"):
+                tkinter.messagebox.showwarning("경고", "품질 선택해주세요")
+            else:
+                if (choice == quality_lists[0]):
+                    select = yt.streams.filter(res = '2160p').first()
+                elif (choice == quality_lists[1]):
+                    select = yt.streams.filter(res = '1440p').first()
+                elif (choice == quality_lists[2]):
+                    select = yt.streams.filter(res = '1080p').first()
+                elif (choice == quality_lists[3]):
+                    select = yt.streams.filter(res = '720p').first()
+                elif (choice == quality_lists[4]):
+                    select = yt.streams.filter(res = '480p').first()
+                elif (choice == quality_lists[5]):
+                    select = yt.streams.filter(res = '360p').first()
+                elif (choice == quality_lists[6]):
+                    select = yt.streams.filter(res = '240p').first()
+                elif (choice == quality_lists[7]):
+                    select = yt.streams.filter(res = '144p').first()
+                else:
+                    pass
+                if (select != None):
+                    select.download(Folder_Name)
+                    tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
+                else:
+                    tkinter.messagebox.showwarning("경고", "해상도 지원되지 않습니다. 다른 해상도 선택해주세요!")
         else:
-            pass
-        if (select != None):
-            select.download(Folder_Name)
-            tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
-        else:
-            tkinter.messagebox.showwarning("경고", "해상도 지원되지 않아요. 다른 해상도 선택해주세요!")
-    else :
-        tkinter.messagebox.showwarning("경고", "풀더를 지정해주세요.")
+            tkinter.messagebox.showwarning("경고", "풀더를 지정해주세요.")
+    else:
+        tkinter.messagebox.showwarning("경고", "URL의 주소를 넣어주세요.")
 
 # callback function
 def progress_function(stream, chunk, bytes_remaining):
@@ -161,11 +166,6 @@ def downlode_window():
     downlode_label = tkinter.Label(window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
-
-    # 기타
-    global messagelabel
-    messagelabel = tkinter.Label(window, text="Youtube Video Downloader Demo", font=("jost", 11))
-    messagelabel.place(x=100, y=300)
 
     # 다운로드 진행율
     global disnum
