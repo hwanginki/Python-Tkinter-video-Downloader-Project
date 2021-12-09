@@ -4,7 +4,7 @@
 
 # tkinter 임포트 합니다.
 import tkinter
-import tkinter.ttk # 이거 왜 추가해야되는 이유는 모르겠다. 아마도 콤보박스 관련 라이브러리라서 그런가
+import tkinter.ttk # 콤보박스, 프로그래스 바 관련 라이브러리 추가
 import tkinter.messagebox # 메시지 라이브러리 추가
 from tkinter import filedialog
 # 유튜브 비디오 다운로드 라이비러리
@@ -12,6 +12,7 @@ from pytube import YouTube
 import time
 
 Folder_Name = ""
+select = []
 
 def self_window():
     self_window = tkinter.Tk()
@@ -50,13 +51,25 @@ def select_window():
     button2.pack(padx = 50, pady = 100)
     button2.pack()
 
+# 프로그레스바(진행 표시줄) 함수
+def progress_function(stream, chunk, bytes_remaining):
+    global select
+    # 프로그레스바 길이는 600이니깐 여기서 알고리즘 다시 계산할 것
+    prog = round((1 - bytes_remaining / select.filesize) * 100, 1)
+    print("1_>>>>", bytes_remaining)
+    print("2_>>>>", select.filesize)
+    print(prog, "% 다운로드 중입니다...")
+    progress_bar.step(1)
+    progress_bar.update()
+
 # 동영상 다운로드 로직
 def downloadVideo():
     global select
     choice = combobox.get()
     getUrl = ytdEntry.get()
+
     if (len(getUrl) > 1) :
-        yt = YouTube(getUrl)
+        yt = YouTube(getUrl, on_progress_callback = progress_function)
         if (Folder_Name != ""):
             if (choice == "품질 선택"):
                 tkinter.messagebox.showwarning("경고", "품질 선택해주세요")
@@ -80,24 +93,14 @@ def downloadVideo():
                 else:
                     pass
                 if (select != None):
-                    select.download(Folder_Name)
-                    tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
+                        select.download(Folder_Name)
+                        tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
                 else:
                     tkinter.messagebox.showwarning("경고", "해상도 지원되지 않습니다. 다른 해상도 선택해주세요!")
         else:
             tkinter.messagebox.showwarning("경고", "풀더를 지정해주세요.")
     else:
         tkinter.messagebox.showwarning("경고", "URL의 주소를 넣어주세요.")
-
-# callback function
-def progress_function(stream, chunk, bytes_remaining):
-    global select
-    prog = round((1 - bytes_remaining / select.filesize) * 100, 1)
-    print(prog, '% done...')
-    messagelabel.configure(text = "다운로드 중입니다.")  # 왜 못 바꾸지?
-    messagelabel.update()
-    disnum.configure(text = prog)
-    disnum.update()
 
 # 경로설정
 def openLocation():
@@ -111,7 +114,7 @@ def downlode_window():
     window.title("다운로드")
     w = 900
     h = 500
-    window.geometry('%dx%d+%d+%d' %(w, h, 500, 500))
+    window.geometry('%dx%d+%d+%d' %(w, h, 0, 650))
     window.resizable(False, False)
     window.configure(bg = "#79579e")
 
@@ -158,19 +161,21 @@ def downlode_window():
     saveEntry.pack()
     saveEntry.place(x=700, y=270)
 
+    # 프로그레스바 로직
+    global progress_bar
+    progress_bar = tkinter.ttk.Progressbar(window, maximum = 100, length = 600,  mode = 'determinate')
+    progress_bar.place(x = 200, y = 310)
+    
+    # 다운로드 버튼
     button3 = tkinter.Button(window, text = "다운로드", overrelief = "flat", command = downloadVideo,
                              width = 100, height = 3, repeatdelay = 1000, repeatinterval = 100)
     button3.configure(bg = "#c4df9b")
     button3.place(x = 110, y = 350)
-
+    
+    # 다운로드 횟수 라벨
     downlode_label = tkinter.Label(window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
-
-    # 다운로드 진행율
-    global disnum
-    disnum = tkinter.Label(window, text='0', font=('jost', 36))
-    disnum.place(x=300, y=100)
 
 window = tkinter.Tk() # Tk()이용하여 윈도우 창을 생성합니다.
 window.title("동영상 다운로더") # 제목 설정합니다.
@@ -183,7 +188,7 @@ h = 600
 # x = (sw - w) / 2
 # y = (sh - h) / 2
 
-window.geometry('%dx%d+%d+%d' %(w, h, 500, 500)) # geometry("너비x높이+x좌표+y좌표")
+window.geometry('%dx%d+%d+%d' %(w, h, 0, 0)) # geometry("너비x높이+x좌표+y좌표")
 window.resizable(False, False)
 # resizable(상하, 좌우)을 이용하여 윈도우 창의 창 크기 조절 가능 여부 설정,
 # True로 설정하는 경우는 윈도우 창의 크기를 조절할 수 있습니다.
