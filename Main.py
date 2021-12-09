@@ -5,6 +5,7 @@
 # tkinter 임포트 합니다.
 import tkinter
 import tkinter.ttk # 이거 왜 추가해야되는 이유는 모르겠다. 아마도 콤보박스 관련 라이브러리라서 그런가
+import tkinter.messagebox # 메시지 라이브러리 추가
 from tkinter import filedialog
 # 유튜브 비디오 다운로드 라이비러리
 from pytube import YouTube
@@ -49,6 +50,50 @@ def select_window():
     button2.pack(padx = 50, pady = 100)
     button2.pack()
 
+# 동영상 다운로드 로직
+def downloadVideo():
+    global select # 이것또 뭐니?
+    choice = combobox.get()
+    getUrl = ytdEntry.get()
+    yt = YouTube(getUrl, on_progress_callback = progress_function)
+
+    if (Folder_Name != ""):
+        if (choice == quality_lists[0]):
+            select = yt.streams.filter(res = '2160p').first()
+        elif (choice == quality_lists[1]):
+            select = yt.streams.filter(res = '1440p').first()
+        elif (choice == quality_lists[2]):
+            select = yt.streams.filter(res = '1080p').first()
+        elif (choice == quality_lists[3]):
+            select = yt.streams.filter(progressive = 'True', res = '720p').first()
+        elif (choice == quality_lists[4]):
+            select = yt.streams.filter(progressive = 'True', res = '480p').first()
+        elif (choice == quality_lists[5]):
+            select = yt.streams.filter(res = '360p').first()
+        elif (choice == quality_lists[6]):
+            select = yt.streams.filter(res = '240p').first()
+        elif (choice == quality_lists[7]):
+            select = yt.streams.filter(res = '144p').first()
+        else:
+            pass
+        if (select != None):
+            select.download(Folder_Name)
+            tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
+        else:
+            tkinter.messagebox.showwarning("경고", "해상도 지원되지 않아요. 다른 해상도 선택해주세요!")
+    else :
+        tkinter.messagebox.showwarning("경고", "풀더를 지정해주세요.")
+
+# callback function
+def progress_function(stream, chunk, bytes_remaining):
+    global select
+    prog = round((1 - bytes_remaining / select.filesize) * 100, 1)
+    print(prog, '% done...')
+    messagelabel.configure(text = "다운로드 중입니다.")  # 왜 못 바꾸지?
+    messagelabel.update()
+    disnum.configure(text = prog)
+    disnum.update()
+
 # 경로설정
 def openLocation():
     global Folder_Name
@@ -78,9 +123,9 @@ def downlode_window():
     downlode_label.place(x = 50, y = 90)
 
     ytdEntryVar = tkinter.StringVar()  # 변수타입에 유의
-    ytdEntry = tkinter.Entry(window, width=55, textvariable = ytdEntryVar)
+    global ytdEntry
+    ytdEntry = tkinter.Entry(window, width=83, textvariable = ytdEntryVar)
     ytdEntry.place(x = 200, y = 130)
-
 
     downlode_label = tkinter.Label(window, text = "동영상 품질", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
@@ -90,35 +135,42 @@ def downlode_window():
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 50, y = 265)
 
-    # Error Msg
+    # global 변수 사용합니다.
     global locationError
     locationError = tkinter.Label(window, text="", width = 45, fg="black", font=("jost", 15))
     locationError.place(x=200, y=270)
 
-    # 경로선택
-    # destinationText = tkinter.Entry(window, width = 70, font="Arial 10")
-    # destinationText.place(x = 200, y = 270)
-
     # 품질 콤보박스 값 추가
+    global quality_lists
     quality_lists = ["2160p(4K)", "1440p(HD)", "1080p(HD)", "720p", "480p", "360p", "240p", "144p"]
+    global combobox
     combobox = tkinter.ttk.Combobox(window, values = quality_lists, width = 80)
     combobox.set("품질 선택")
     combobox.place(x = 200, y = 200)
 
-
-    saveEntry = tkinter.Button(window, text="경로선택", width = 10, height = 1, command = openLocation)
+    saveEntry = tkinter.Button(window, text="경로선택", width = 13, height = 1, command = openLocation)
     saveEntry.configure(bg="#c4df9b")
     saveEntry.pack()
     saveEntry.place(x=700, y=270)
 
-    button3 = tkinter.Button(window, text = "다운로드", overrelief = "flat", width = 100, height = 3, repeatdelay = 1000,
-                             repeatinterval = 100)
+    button3 = tkinter.Button(window, text = "다운로드", overrelief = "flat", command = downloadVideo,
+                             width = 100, height = 3, repeatdelay = 1000, repeatinterval = 100)
     button3.configure(bg = "#c4df9b")
     button3.place(x = 110, y = 350)
 
-    downlode_label = tkinter.Label(window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
+
+    # 기타
+    global messagelabel
+    messagelabel = tkinter.Label(window, text="Youtube Video Downloader Demo", font=("jost", 11))
+    messagelabel.place(x=100, y=300)
+
+    # 다운로드 진행율
+    global disnum
+    disnum = tkinter.Label(window, text='0', font=('jost', 36))
+    disnum.place(x=300, y=100)
 
 window = tkinter.Tk() # Tk()이용하여 윈도우 창을 생성합니다.
 window.title("동영상 다운로더") # 제목 설정합니다.
@@ -139,7 +191,6 @@ window.resizable(False, False)
 # 배경색 설정
 window.configure(bg = "#79579e")
 
-
 # 라벨 추가
 label = tkinter.Label(window, text = "동영상 다운로더", width = 100, height = 5, fg = "#ffffff", font = ("DotumChe", 30))
 label.configure(bg = "#79579e")
@@ -155,7 +206,6 @@ button1 = tkinter.Button(text = "프로젝트 소개", overrelief = "flat", widt
 button1.configure(bg="#ffffff")
 button1.pack(padx = 30, pady = 30)
 button1.pack()
-
 
 # 윈도우 창 뜨는 함수
 window.mainloop()
