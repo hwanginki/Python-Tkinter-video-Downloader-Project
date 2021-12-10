@@ -6,7 +6,7 @@
 ![testd.png](testd.png)
 
 # 개발 관련 필요 기술
-1) Python
+1) Python(3.7.@ 버전이상)
 2) PyCharm 또는 Visual Studio Code 툴
 3) Tkinter 툴킷
 4) 판다스(Excel 사용)
