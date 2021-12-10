@@ -149,7 +149,7 @@ def downlode_window():
     downlode_label.place(x = 50, y = 265)
 
     # 진행률 라벨
-    downlode_pgn = tkinter.Label(download_window, text="진행률", width=10, fg="#ffffff", font=("DotumChe", 15))
+    downlode_pgn = tkinter.Label(download_window, text = "진행률", width=10, fg = "#ffffff", font=("DotumChe", 15))
     downlode_pgn.configure(bg="#79579e")
     downlode_pgn.place(x=50, y=310)
 
@@ -198,6 +198,9 @@ def downlode_window():
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
 
+    # 창 아이콘 이미지 변경
+    download_window.iconbitmap("Youtube_ico.ico")
+
 window = tkinter.Tk() # Tk()이용하여 윈도우 창을 생성합니다.
 window.title("동영상 다운로더") # 제목 설정합니다.
 
@@ -240,6 +243,9 @@ button.place(x = 100, y = 230)
 button1 = tkinter.Button(text = "프로젝트 소개", overrelief = "flat", width = 100, height = 5, command = downlode_window)
 button1.configure(bg = "#ffffff")
 button1.place(x = 100, y = 350)
+
+# 창 아이콘 변경(ico 확장명만 지원, png, jpg 지원되지 않음. 주의하시길)
+window.iconbitmap("Youtube_ico.ico")
 
 # 윈도우 창 뜨는 함수
 window.mainloop()
