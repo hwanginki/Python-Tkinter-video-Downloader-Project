@@ -8,3 +8,5 @@
 2) PyCharm 또는 Visual Studio Code 툴
 3) Tkinter 툴킷
 4) 판다스(Excel 사용)
+
+# 이미지 로고 변경하실 땐 Tkinter에서 이미지 확장명은 jpg 지원 안됩니다. 참고해주세요. 다만 gif, png 확장명은 가능합니다.
