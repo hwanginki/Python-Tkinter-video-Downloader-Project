@@ -110,90 +110,91 @@ def openLocation():
 
 # 다운로드 창
 def downlode_window():
-    window = tkinter.Tk()
-    window.title("다운로드")
+    window.destroy() # 메인창 닫습니다.
+    download_window = tkinter.Tk()
+    download_window.title("다운로드")
     w = 900
     h = 500
-    sw = window.winfo_screenwidth()
-    sh = window.winfo_screenheight()
+    sw = download_window.winfo_screenwidth()
+    sh = download_window.winfo_screenheight()
     x = (sw - w) / 2
     y = (sh - h) / 2
-    window.geometry('%dx%d+%d+%d' %(w, h, x, y))
-    window.resizable(False, False)
-    window.configure(bg = "#79579e")
+    download_window.geometry('%dx%d+%d+%d' %(w, h, x, y))
+    download_window.resizable(False, False)
+    download_window.configure(bg = "#79579e")
 
     # 콤보박스에서 값을 선택하면 그 라벨이 수정할 수 있도록 고칠 것
-    downlode_label = tkinter.Label(window, text = "유튜브", width = 100, height = 4, fg = "#ffffff",
+    downlode_label = tkinter.Label(download_window, text = "유튜브", width = 100, height = 4, fg = "#ffffff",
                                    font = ("DotumChe", 30))
     downlode_label.configure(bg = "#79579e")
     downlode_label.pack()
 
     # place() 위젯 배치에 x, y축 설정하여 사용합니다.
-    downlode_label = tkinter.Label(window, text = "동영상 UTL", width = 10, height = 5, fg = "#ffffff",
+    downlode_label = tkinter.Label(download_window, text = "동영상 UTL", width = 10, height = 5, fg = "#ffffff",
                                    font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 50, y = 90)
 
     ytdEntryVar = tkinter.StringVar()  # 변수타입에 유의
     global ytdEntry
-    ytdEntry = tkinter.Entry(window, width = 83, textvariable = ytdEntryVar)
+    ytdEntry = tkinter.Entry(download_window, width = 83, textvariable = ytdEntryVar)
     ytdEntry.place(x = 200, y = 130)
 
-    downlode_label = tkinter.Label(window, text = "동영상 품질", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(download_window, text = "동영상 품질", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 50, y = 200)
 
-    downlode_label = tkinter.Label(window, text = "저장경로", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(download_window, text = "저장경로", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 50, y = 265)
 
     # 진행률 라벨
-    downlode_pgn = tkinter.Label(window, text="진행률", width=10, fg="#ffffff", font=("DotumChe", 15))
+    downlode_pgn = tkinter.Label(download_window, text="진행률", width=10, fg="#ffffff", font=("DotumChe", 15))
     downlode_pgn.configure(bg="#79579e")
     downlode_pgn.place(x=50, y=310)
 
     # 진행률 라벨
     global downlode_progress
-    downlode_progress = tkinter.Label(window, text = "0", width = 3, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_progress = tkinter.Label(download_window, text = "0", width = 3, fg = "#ffffff", font = ("DotumChe", 15))
     downlode_progress.configure(bg = "#79579e")
     downlode_progress.place(x = 730, y = 310)
 
     # 진행률 % 라벨
-    downlode_progressPer = tkinter.Label(window, text = " %", width = 2, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_progressPer = tkinter.Label(download_window, text = " %", width = 2, fg = "#ffffff", font = ("DotumChe", 15))
     downlode_progressPer.configure(bg = "#79579e")
     downlode_progressPer.place(x = 763, y = 310)
 
     # global 변수 사용합니다.
     global locationError
-    locationError = tkinter.Label(window, text = "", width = 45, fg = "black", font=("jost", 15))
+    locationError = tkinter.Label(download_window, text = "", width = 45, fg = "black", font=("jost", 15))
     locationError.place(x=200, y=270)
 
     # 품질 콤보박스 값 추가
     global quality_lists
     quality_lists = ["2160p(4K)", "1440p(HD)", "1080p(HD)", "720p", "480p", "360p", "240p", "144p"]
     global combobox
-    combobox = tkinter.ttk.Combobox(window, values = quality_lists, width = 80)
+    combobox = tkinter.ttk.Combobox(download_window, values = quality_lists, width = 80)
     combobox.set("품질 선택")
     combobox.place(x = 200, y = 200)
 
-    saveEntry = tkinter.Button(window, text="경로선택", width = 13, height = 1, command = openLocation)
+    saveEntry = tkinter.Button(download_window, text="경로선택", width = 13, height = 1, command = openLocation)
     saveEntry.configure(bg="#c4df9b")
     saveEntry.pack()
     saveEntry.place(x=700, y=270)
 
     # 프로그레스바 로직
     global progress_bar
-    progress_bar = tkinter.ttk.Progressbar(window, maximum = 100, length = 500,  mode = 'determinate')
+    progress_bar = tkinter.ttk.Progressbar(download_window, maximum = 100, length = 500,  mode = 'determinate')
     progress_bar.place(x = 200, y = 310)
     
     # 다운로드 버튼
-    button3 = tkinter.Button(window, text = "다운로드", overrelief = "flat", command = downloadVideo,
+    button3 = tkinter.Button(download_window, text = "다운로드", overrelief = "flat", command = downloadVideo,
                              width = 100, height = 3, repeatdelay = 1000, repeatinterval = 100)
     button3.configure(bg = "#c4df9b")
     button3.place(x = 110, y = 350)
     
     # 다운로드 횟수 라벨
-    downlode_label = tkinter.Label(window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(download_window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
 
