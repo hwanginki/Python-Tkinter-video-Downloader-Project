@@ -8,3 +8,6 @@
 2) PyCharm 또는 Visual Studio Code 툴
 3) Tkinter 툴킷
 4) 판다스(Excel 사용)
+5) anaconda(pytude) 모듈추가 : File -> settings -> Project: 프로젝트명 -> Python Interpreter -> + 버튼 클릭 -> pytube 검색 -> Install Package 클릭
+   (사진_참고하세요)
+![img_1.png](img_1.png)
