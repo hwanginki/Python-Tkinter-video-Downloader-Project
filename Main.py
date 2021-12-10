@@ -106,7 +106,7 @@ def downloadVideo():
 def openLocation():
     global Folder_Name
     Folder_Name = filedialog.askdirectory()
-    locationError.config(text=Folder_Name)
+    locationError.config(text = Folder_Name)
 
 # 다운로드 창
 def downlode_window():
@@ -149,9 +149,9 @@ def downlode_window():
     downlode_label.place(x = 50, y = 265)
 
     # 진행률 라벨
-    downlode_pgn = tkinter.Label(download_window, text = "진행률", width=10, fg = "#ffffff", font=("DotumChe", 15))
-    downlode_pgn.configure(bg="#79579e")
-    downlode_pgn.place(x=50, y=310)
+    downlode_pgn = tkinter.Label(download_window, text = "진행률", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_pgn.configure(bg = "#79579e")
+    downlode_pgn.place(x = 50, y = 310)
 
     # 진행률 라벨
     global downlode_progress
@@ -166,8 +166,8 @@ def downlode_window():
 
     # global 변수 사용합니다.
     global locationError
-    locationError = tkinter.Label(download_window, text = "", width = 45, fg = "black", font=("jost", 15))
-    locationError.place(x=200, y=270)
+    locationError = tkinter.Label(download_window, text = "", width = 45, fg = "black", font = ("jost", 15))
+    locationError.place(x = 200, y = 270)
 
     # 품질 콤보박스 값 추가
     global quality_lists
@@ -177,10 +177,10 @@ def downlode_window():
     combobox.set("품질 선택")
     combobox.place(x = 200, y = 200)
 
-    saveEntry = tkinter.Button(download_window, text="경로선택", width = 13, height = 1, command = openLocation)
-    saveEntry.configure(bg="#c4df9b")
+    saveEntry = tkinter.Button(download_window, text = "경로선택", width = 13, height = 1, command = openLocation)
+    saveEntry.configure(bg = "#c4df9b")
     saveEntry.pack()
-    saveEntry.place(x=700, y=270)
+    saveEntry.place(x = 700, y = 270)
 
     # 프로그레스바 로직
     global progress_bar
@@ -247,5 +247,5 @@ button1.place(x = 100, y = 350)
 # 창 아이콘 변경(ico 확장명만 지원, png, jpg 지원되지 않음. 주의하시길)
 window.iconbitmap("Youtube_ico.ico")
 
-# 윈도우 창 뜨는 함수
+# 윈도우 창 뜨는 함수(없으면 창이 뜨지 않아요)
 window.mainloop()
