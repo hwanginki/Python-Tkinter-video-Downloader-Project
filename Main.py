@@ -173,7 +173,8 @@ def downlode_window():
     global quality_lists
     quality_lists = ["2160p(4K)", "1440p(HD)", "1080p(HD)", "720p", "480p", "360p", "240p", "144p"]
     global combobox
-    combobox = tkinter.ttk.Combobox(download_window, values = quality_lists, width = 80)
+    combobox = tkinter.ttk.Combobox(download_window, values = quality_lists, width = 80, state = "readonly"
+                                    , cursor = "none")
     combobox.set("품질 선택")
     combobox.place(x = 200, y = 200)
 
