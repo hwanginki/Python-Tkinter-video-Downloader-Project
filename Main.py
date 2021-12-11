@@ -137,14 +137,16 @@ def downlode_window():
 
     ytdEntryVar = tkinter.StringVar()  # 변수타입에 유의
     global ytdEntry
-    ytdEntry = tkinter.Entry(download_window, width = 83, textvariable = ytdEntryVar)
+    ytdEntry = tkinter.Entry(download_window, width = 52, textvariable = ytdEntryVar, font = ("jost", 15))
     ytdEntry.place(x = 200, y = 130)
 
-    downlode_label = tkinter.Label(download_window, text = "동영상 품질", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(download_window, text = "동영상 품질", width = 10, fg = "#ffffff",
+                                   font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 50, y = 200)
 
-    downlode_label = tkinter.Label(download_window, text = "저장경로", width = 10, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(download_window, text = "저장경로", width = 10, fg = "#ffffff",
+                                   font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 50, y = 265)
 
@@ -160,7 +162,8 @@ def downlode_window():
     downlode_progress.place(x = 730, y = 310)
 
     # 진행률 % 라벨
-    downlode_progressPer = tkinter.Label(download_window, text = " %", width = 2, fg = "#ffffff", font = ("DotumChe", 15))
+    downlode_progressPer = tkinter.Label(download_window, text = " %", width = 2, fg = "#ffffff",
+                                         font = ("DotumChe", 15))
     downlode_progressPer.configure(bg = "#79579e")
     downlode_progressPer.place(x = 763, y = 310)
 
@@ -195,7 +198,8 @@ def downlode_window():
     button3.place(x = 110, y = 350)
     
     # 다운로드 횟수 라벨
-    downlode_label = tkinter.Label(download_window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",font = ("DotumChe", 15))
+    downlode_label = tkinter.Label(download_window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",
+                                   font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
 
