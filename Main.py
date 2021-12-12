@@ -14,6 +14,10 @@ import time
 Folder_Name = ""
 select = []
 
+# 카운터 증가 변수
+global countNum
+countNum = 0
+
 def self_window():
     self_window = tkinter.Tk()
     self_window.title("프로젝트 소개")
@@ -93,8 +97,12 @@ def downloadVideo():
                 else:
                     pass
                 if (select != None):
-                        select.download(Folder_Name)
-                        tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
+                    global countNum
+                    select.download(Folder_Name)
+                    countNum += 1 # ++ 증가연산자는 안되니까 += 1로 대체
+                    print("다운로드 횟수_", countNum)
+                    downlodeNum_label.config(text = countNum)
+                    tkinter.messagebox.showinfo("다운로드 완료", "다운로드 끝났습니다. 이용해주셔서 감사합니다.")
                 else:
                     tkinter.messagebox.showwarning("경고", "해상도 지원되지 않습니다. 다른 해상도 선택해주세요!")
         else:
@@ -186,7 +194,7 @@ def downlode_window():
     saveEntry.pack()
     saveEntry.place(x = 700, y = 270)
 
-    # 프로그레스바 로직
+    # 프로그레스바 로직 mode는 프로그레스 바의 표시 스타일, 기본속성은 determinate, indeterminate 이렇게 두 가지가 있습니다.
     global progress_bar
     progress_bar = tkinter.ttk.Progressbar(download_window, maximum = 100, length = 500,  mode = 'determinate')
     progress_bar.place(x = 200, y = 310)
@@ -198,10 +206,16 @@ def downlode_window():
     button3.place(x = 110, y = 350)
     
     # 다운로드 횟수 라벨
-    downlode_label = tkinter.Label(download_window, text = "다운로드 횟수 : ", width = 20, fg = "#ffffff",
+    downlode_label = tkinter.Label(download_window, text = "다운로드 횟수 : ", width = 0, fg = "#ffffff",
                                    font = ("DotumChe", 15))
     downlode_label.configure(bg = "#79579e")
     downlode_label.place(x = 150, y = 430)
+
+    # 다운로드 횟수 알고리즘
+    global downlodeNum_label
+    downlodeNum_label = tkinter.Label(download_window, text = "0", fg = "#ffffff", font = ("DotumChe", 15))
+    downlodeNum_label.configure(bg = "#79579e")
+    downlodeNum_label.place(x = 320, y = 430)
 
     # 창 아이콘 이미지 변경
     download_window.iconbitmap("Youtube_ico.ico")
