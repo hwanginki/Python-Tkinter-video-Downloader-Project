@@ -29,6 +29,18 @@ def self_window():
     self_window.configure(bg = "#79579e")
     self_window.iconbitmap("Youtube_ico.ico")
 
+    self_label = tkinter.Label(self_window, text = "안녕하십니까? 유튜브의 URL을 가지고 \n"
+                                                   "붙여넣어 품질과 저장경로까지 본인이 \n"
+                                                   "원하는 설정을 하여 다운로드 시 \n"
+                                                   "진행률과 증가하는 횟수를 볼 수 \n"
+                                                   "있습니다! 유튜브 동영상 다운로드 \n"
+                                                   "받고 싶을 때 이 프로그램을 이용하여 \n"
+                                                   "디자인적으로 깔끔하며 간단하고 \n"
+                                                   "편하도록 구성할 수 있도록 \n"
+                                                   "프로그램을 제작되었습니다"
+                               ,width = 43, height = 17, font = ("맑은 고딕", 15))
+    self_label.place(x = 10, y = 10)
+
 def select_window():
     window.destroy()
     global selectWindow
@@ -58,6 +70,7 @@ def select_window():
             button2['state'] = 'disabled'
             tkinter.messagebox.showwarning("경고", "다음 다운로더 사이트는 구현되어있지 않습니다. \n"
                                                  "다른 다운로더 사이트 이용해주세요")
+
         if(combobox.get() == "네이버"):
             button2['state'] = 'disabled'
             tkinter.messagebox.showwarning("경고", "네이버 다운로더 사이트는 구현되어있지 않습니다. \n"
