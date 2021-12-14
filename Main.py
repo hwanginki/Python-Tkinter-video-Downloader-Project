@@ -2,14 +2,11 @@
 # 위의 주소는 파이썬 명명규칙 블로그입니다.
 # ""는 텍스트, ''는 기호, 식별자, ""는 docstrings, 정규표현식로 규칙
 
-# tkinter 임포트 합니다.
-import tkinter
+import tkinter # tkinter 임포트 합니다.
 import tkinter.ttk # 콤보박스, 프로그래스 바 관련 라이브러리 추가
 import tkinter.messagebox # 메시지 라이브러리 추가
-from tkinter import filedialog
-# 유튜브 비디오 다운로드 라이비러리
-from pytube import YouTube
-import time
+from tkinter import filedialog # 대화 상자(파일)여는 라이브러리 추가
+from pytube import YouTube # 유튜브 비디오 다운로드 라이비러리 추가
 
 Folder_Name = ""
 select = []
@@ -23,42 +20,66 @@ def self_window():
     self_window.title("프로젝트 소개")
     w = 500
     h = 500
-    self_window.geometry('%dx%d+%d+%d' %(w, h, 500, 500))
+    sw = window.winfo_screenwidth()
+    sh = window.winfo_screenheight()
+    x = (sw - w) / 2
+    y = (sh - h) / 2
+    self_window.geometry('%dx%d+%d+%d' %(w, h, x, y))
     self_window.resizable(False, False)
     self_window.configure(bg = "#79579e")
+    self_window.iconbitmap("Youtube_ico.ico")
 
 def select_window():
-    window = tkinter.Tk()
-    window.title("사이트 선택")
+    window.destroy()
+    global selectWindow
+    selectWindow = tkinter.Tk()
+    selectWindow.title("사이트 선택")
     w = 900
     h = 500
-    window.geometry('%dx%d+%d+%d' %(w, h, 500, 500))
-    window.resizable(False, False)
-    window.configure(bg = "#79579e")
+    sw = selectWindow.winfo_screenwidth()
+    sh = selectWindow.winfo_screenheight()
+    x = (sw - w) / 2
+    y = (sh - h) / 2
+    selectWindow.geometry('%dx%d+%d+%d' %(w, h, x, y))
+    selectWindow.resizable(False, False)
+    selectWindow.configure(bg = "#79579e")
 
-    self_label = tkinter.Label(window, text = "사이트 선택", width = 100, height = 5, fg = "#ffffff",
+    self_label = tkinter.Label(selectWindow, text = "사이트 선택", width = 100, height = 5, fg = "#ffffff",
                                font = ("DotumChe", 30))
     self_label.configure(bg = "#79579e")
     self_label.pack()
 
-    # 여기서 판다스로 엑셀 파일 읽어불러오기 로직넣는 부분
-    values = ["네이버", "다음", "유튜브"]
-    # end
-
-    combobox=tkinter.ttk.Combobox(window, values = values)
+    df = ['다음', '네이버', '유튜브']
+    combobox = tkinter.ttk.Combobox(selectWindow, values = df, state = "readonly", cursor = "none")
     combobox.set("유튜브")
+
+    def clickedCbx(event):
+        if(combobox.get() == "다음"):
+            button2['state'] = 'disabled'
+            tkinter.messagebox.showwarning("경고", "다음 다운로더 사이트는 구현되어있지 않습니다. \n"
+                                                 "다른 다운로더 사이트 이용해주세요")
+        if(combobox.get() == "네이버"):
+            button2['state'] = 'disabled'
+            tkinter.messagebox.showwarning("경고", "네이버 다운로더 사이트는 구현되어있지 않습니다. \n"
+                                                 "다른 다운로더 사이트 이용해주세요")
+
+        if(combobox.get() == "유튜브"):
+            button2['state'] = 'normal'
+
+    combobox.bind("<<ComboboxSelected>>", clickedCbx)
     combobox.pack()
 
-    button2 = tkinter.Button(window, text = "이동", overrelief = "flat", width = 100, height = 5,
-                             command = downlode_window, repeatdelay = 1000, repeatinterval = 100)
+    button2 = tkinter.Button(selectWindow, text = "이동", overrelief = "flat", width = 100, height = 5,
+                             command = downlode_window)
     button2.configure(bg = "#c4df9b")
     button2.pack(padx = 50, pady = 100)
     button2.pack()
 
+    selectWindow.iconbitmap("Youtube_ico.ico")
+
 # 프로그레스바(진행 표시줄) 함수
 def progress_function(stream, chunk, bytes_remaining):
     global select
-    # 프로그레스바 길이는 600이니깐 여기서 알고리즘 다시 계산할 것
     prog = round((1 - bytes_remaining / select.filesize) * 100)
     print(prog, "% 다운로드 중입니다...")
     progress_bar.step(prog)
@@ -118,7 +139,7 @@ def openLocation():
 
 # 다운로드 창
 def downlode_window():
-    window.destroy() # 메인창 닫습니다.
+    selectWindow.destroy()
     download_window = tkinter.Tk()
     download_window.title("다운로드")
     w = 900
@@ -189,7 +210,9 @@ def downlode_window():
     combobox.set("품질 선택")
     combobox.place(x = 200, y = 200)
 
-    saveEntry = tkinter.Button(download_window, text = "경로선택", width = 13, height = 1, command = openLocation)
+    # 경로선택 버튼
+    saveEntry = tkinter.Button(download_window, text = "경로선택", width = 13, height = 1, command = openLocation
+                               , overrelief = "flat")
     saveEntry.configure(bg = "#c4df9b")
     saveEntry.pack()
     saveEntry.place(x = 700, y = 270)
@@ -198,13 +221,13 @@ def downlode_window():
     global progress_bar
     progress_bar = tkinter.ttk.Progressbar(download_window, maximum = 100, length = 500,  mode = 'determinate')
     progress_bar.place(x = 200, y = 310)
-    
+
     # 다운로드 버튼
     button3 = tkinter.Button(download_window, text = "다운로드", overrelief = "flat", command = downloadVideo,
-                             width = 100, height = 3, repeatdelay = 1000, repeatinterval = 100)
+                             width = 70, height = 3)
     button3.configure(bg = "#c4df9b")
-    button3.place(x = 110, y = 350)
-    
+    button3.place(x = 200, y = 350)
+
     # 다운로드 횟수 라벨
     downlode_label = tkinter.Label(download_window, text = "다운로드 횟수 : ", width = 0, fg = "#ffffff",
                                    font = ("DotumChe", 15))
@@ -246,20 +269,15 @@ image_label = tkinter.Label(window, image = image)
 image_label.pack()
 image_label.place(x = 350, y = 80)
 
-# 라벨 추가
-# label = tkinter.Label(window, text = "동영상 다운로더", width = 100, height = 5, fg = "#ffffff", font = ("DotumChe", 30))
-# label.configure(bg = "#79579e")
-# label.pack()
-
 # 사이트 선택 버튼 추가
 button = tkinter.Button(window, text = "사이트 선택", overrelief = "flat", width = 100, height = 5,
-                        command = select_window, repeatdelay = 1000, repeatinterval = 100)
+                        command = select_window)
 button.configure(bg = "#ffffff")
 button.pack()
 button.place(x = 100, y = 230)
 
 # 프로젝트 소개 버튼 추가
-button1 = tkinter.Button(text = "프로젝트 소개", overrelief = "flat", width = 100, height = 5, command = downlode_window)
+button1 = tkinter.Button(text = "프로젝트 소개", overrelief = "flat", width = 100, height = 5, command = self_window)
 button1.configure(bg = "#ffffff")
 button1.place(x = 100, y = 350)
 
