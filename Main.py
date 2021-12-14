@@ -232,7 +232,7 @@ def downlode_window():
 
     # 프로그레스바 로직 mode는 프로그레스 바의 표시 스타일, 기본속성은 determinate, indeterminate 이렇게 두 가지가 있습니다.
     global progress_bar
-    progress_bar = tkinter.ttk.Progressbar(download_window, maximum = 100, length = 500,  mode = 'determinate')
+    progress_bar = tkinter.ttk.Progressbar(download_window, maximum = 100, length = 500,  mode = 'indeterminate')
     progress_bar.place(x = 200, y = 310)
 
     # 다운로드 버튼
