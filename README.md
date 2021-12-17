@@ -9,6 +9,7 @@
 1) Python(3.7.@ 버전이상)
 2) PyCharm 또는 Visual Studio Code 툴
 3) Tkinter 툴킷
+
 ~~4) 판다스(Excel 사용)~~ // 이유는 판다스 사용하면서 복잡한 함수를 써야돼서 빼고 대신 배열으로 요소를 추가하였습니다!
 5) anaconda(pytude) 모듈추가 : File -> settings -> Project: 프로젝트명 -> Python Interpreter -> + 버튼 클릭 -> pytube 검색 -> Install Package 클릭
    (사진_참고하세요)
